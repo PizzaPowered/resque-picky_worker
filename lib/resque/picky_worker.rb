@@ -9,8 +9,8 @@ module Resque
     def self.pick_queue
       Resque.queues.select do |s|
         # It's a crawl_* queue and has free worker slots available
-        s[/\Acrawl_/] && (queue_max(s) > queue_current(s))
-      end.shuffle.first
+        s[/\Acrawl_/] && (queue_max(s) > queue_current(s)) # && jobs available (above certain threshold?)
+      end.shuffle.first # pick one at random
     end
 
     def self.queue_max name
@@ -19,6 +19,11 @@ module Resque
     
     def self.queue_current name
       all.select {|worker| worker.queues.include?(name) }.size
+    end
+
+    # Invoke the worker class with a randomly picked queue
+    def initialize
+      super(PickyWorker.pick_queue)
     end
 
   end

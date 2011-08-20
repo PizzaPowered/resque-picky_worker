@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Caius Durling"]
   s.email       = ["caius@pizzapowered.com"]
   s.homepage    = "http://pizzapowered.com/"
-  s.summary     = %q{Chooses a queue }
-  s.description = %q{Given a URI to crawl, it'll grab the headers (& contents of only HTML pages) and send that data back to the specified callback URI. Uses curb to be damn quick at what it does.}
+  s.summary     = %q{Resque worker, but picky about what queues it listens to}
+  s.description = %q{Resque worker that evaluates queues and chooses which one to pull jobs from}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

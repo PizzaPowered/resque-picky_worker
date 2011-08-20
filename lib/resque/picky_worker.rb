@@ -3,7 +3,10 @@ require "resqueue-metadata"
 
 module Resque
   class PickyWorker < Worker
-    DEFAULT_MAX_WORKERS = 5
+    class << self
+      attr_accessor :default_max_workers
+    end
+    self.default_max_workers ||= 5
 
     # Returns a string (name of a queue)
     def self.pick_queue
@@ -14,7 +17,7 @@ module Resque
     end
 
     def self.queue_max name
-      (Resque::Queue::Metadata.new(name)["max_workers"] || DEFAULT_MAX_WORKERS).to_i
+      (Resque::Queue::Metadata.new(name)["max_workers"] || default_max_workers).to_i
     end
     
     def self.queue_current name

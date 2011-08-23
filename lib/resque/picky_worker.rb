@@ -3,17 +3,25 @@ require "resqueue-metadata"
 
 module Resque
   class PickyWorker < Worker
+    Error = Class.new(StandardError)
+
     class << self
       attr_accessor :default_max_workers
+      # Something that responds to #call (eg. Proc) and takes a single argument - array of queue names
+      # Should return a string which is a valid queue name
+      attr_accessor :chooser
     end
     self.default_max_workers ||= 5
 
+    def self.chooser
+      @chooser || raise(Error, "chooser must be specified or I cannot choose a queue to listen to")
+    end
+
     # Returns a string (name of a queue)
     def self.pick_queue
-      Resque.queues.select do |s|
-        # It's a crawl_* queue and has free worker slots available
-        s[/\Acrawl_/] && (queue_max(s) > queue_current(s)) # && jobs available (above certain threshold?)
-      end.shuffle.first # pick one at random
+      cue = chooser.call(Resque.queues)
+      raise(Error, "chooser returned an invalid queue name") unless Resque.queues.include?(cue)
+      cue
     end
 
     def self.queue_max name

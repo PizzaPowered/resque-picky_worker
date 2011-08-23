@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.bindir        = "bin"
 
-  s.add_dependency "resque"
-  s.add_dependency "resqueue-metadata"
+  s.add_dependency "resque", "~> 2.2"
+  s.add_dependency "resqueue-metadata", "~> 0.0.1"
 end

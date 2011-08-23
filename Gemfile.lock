@@ -3,7 +3,7 @@ PATH
   specs:
     resque-picky_worker (0.0.1)
       resque
-      resqueue-metadata
+      resqueue-metadata (~> 0.0.1)
 
 GEM
   remote: http://rubygems.org/

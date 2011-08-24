@@ -14,7 +14,7 @@ Or in your Gemfile
 
 ## Usage
 
-You'll need to require the picky worker, usually with `require "resque/picky_worker/override"` to make it the default Worker class in resque. (Means it *Just Works*™.)
+You'll need to require the picky worker, usually with `require "resque/picky_worker/override"` to make it the default Worker class in resque. (Means it _Just Works_.™)
 
 Then you need to define how you want a queue to be chosen. Lets say we have a bunch of queues named after numbers and we want to choose the highest number available at the time the worker starts:
 

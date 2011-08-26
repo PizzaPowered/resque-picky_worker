@@ -33,8 +33,9 @@ module Resque
     end
 
     # Invoke the worker class with a randomly picked queue
-    def initialize
-      super(PickyWorker.pick_queue)
+    def initialize(*queues)
+      queues << PickyWorker.pick_queue if queues.empty?
+      super(queues)
     end
 
   end

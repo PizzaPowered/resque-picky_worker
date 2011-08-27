@@ -12,10 +12,15 @@ module Resque
       # Something that responds to #call (eg. Proc) and takes a single argument - array of queue names
       # Should return a string which is a valid queue name
       attr_accessor :chooser
+
+      # Ignores any passed queue names and always picks a queue when set to true
+      # defaults to false
+      attr_accessor :force_picking_queue
     end
 
     # Defaults for class instance variables
     self.default_max_workers ||= 5
+    self.force_picking_queue = false
 
     # If we invoke the chooser and one isn't set, raise an error
     def self.chooser

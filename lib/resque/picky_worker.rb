@@ -34,9 +34,12 @@ module Resque
       cue
     end
 
-    # Invoke the worker class with a randomly picked queue
+    # Create the worker class. Delegates most of the work to the superclass (Resque::Worker) after picking
+    # a queue. If a queue names are passed and PickyWorker.force_picking_queue is false, then it uses the
+    # passed queue names. Set PickyWorker.force_picking_queue = true to ignore any passed queue names and 
+    # always pick a queue to listen on.
     def initialize(*queues)
-      queues << PickyWorker.pick_queue if queues.empty?
+      queues = [PickyWorker.pick_queue] if PickyWorker.force_picking_queue || queues.empty?
       super(queues)
     end
 

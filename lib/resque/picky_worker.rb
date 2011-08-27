@@ -24,14 +24,6 @@ module Resque
       cue
     end
 
-    def self.queue_max name
-      (Resque::Queue::Metadata.new(name)["max_workers"] || default_max_workers).to_i
-    end
-    
-    def self.queue_current name
-      all.select {|worker| worker.queues.include?(name) }.size
-    end
-
     # Invoke the worker class with a randomly picked queue
     def initialize(*queues)
       queues << PickyWorker.pick_queue if queues.empty?

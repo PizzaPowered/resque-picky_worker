@@ -6,13 +6,18 @@ module Resque
     Error = Class.new(StandardError)
 
     class << self
+      # Number of maximum workers to default to per queue if the queue doesn't have a maximum set
       attr_accessor :default_max_workers
+
       # Something that responds to #call (eg. Proc) and takes a single argument - array of queue names
       # Should return a string which is a valid queue name
       attr_accessor :chooser
     end
+
+    # Defaults for class instance variables
     self.default_max_workers ||= 5
 
+    # If we invoke the chooser and one isn't set, raise an error
     def self.chooser
       @chooser || raise(Error, "chooser must be specified or I cannot choose a queue to listen to")
     end
